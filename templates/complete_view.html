@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>complete view</title>
+    <style>
+        table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+    </style>
+</head>
+<body>
+    <h1> view all the details of the crop 1</h1>
+    <!-- expense table-->
+    <table>
+        <tr>
+          <th>expense name</th>
+          <th>expense cost</th> 
+          <th>expense date</th>
+          <th>expense paid to</th> 
+          <th>expense notes</th>
+        </tr>
+        {% for exp in expense %}
+            <tr>
+                <td>{{ exp.exp_name }}</td>
+                <td>{{ exp.exp_cost }}</td>
+                <td>{{ exp.exp_date }}</td>
+                <td>{{ exp.exp_paidto }}</td>
+                <td>{{ exp.exp_notes }}</td>
+            </tr>
+        {% endfor %}
+
+
+      </table><br>
+      <!-- worker expense table-->
+      <table><br>
+        <tr>
+          <th>worker no</th>
+          <th>worker name</th>
+          <th>date</th> 
+          <th>amount</th>
+          <th>worker notes</th> 
+        </tr>
+        {% for work in work_exp %}
+            <tr>
+                <td>{{ work.worker_no }}</td>
+                <td>{{ work.worker_name }}</td>
+                <td>{{ work.date }}</td>
+                <td>{{ work.amount }}</td>
+                <td>{{ work.worker_notes }}</td>
+            </tr>
+        {% endfor %}
+
+      </table><br>
+
+      <!-- feed table-->
+      <table><br>
+        <tr>
+          <th>feed id</th>
+          <th>date</th> 
+          <th>shop name</th>
+          <th>bill no</th>
+          <th>bill amount</th> 
+          <th>quantity</th>
+          <th>feed notes</th>
+        </tr>
+        {% for feed in feed_view %}
+            <tr>
+                <td>{{ feed.feed_id }}</td>
+                <td>{{ feed.date }}</td>
+                <td>{{ feed.shop_name }}</td>
+                <td>{{ feed.bill_no }}</td>
+                <td>{{ feed.bill_amount }}</td>
+                <td>{{ feed.quantity }}</td>
+                <td>{{ feed.feed_notes }}</td>
+            </tr>
+        {% endfor %}
+      </table><br>
+
+      <!-- medicine table-->
+      <table><br>
+        <tr>
+          <th>medicine id</th>
+          <th>medicine name</th> 
+          <th>date</th>
+          <th>bill no</th>
+          <th>quanity</th> 
+          <th>amount</th>
+          <th>medicine notes</th>
+        </tr>
+        {% for m in med %}
+            <tr>
+                <td>{{ m.med_id }}</td>
+                <td>{{ m.med_name }}</td>
+                <td>{{ m.date }}</td>
+                <td>{{ m.bill_no }}</td>
+                <td>{{ m.quantity }}</td>
+                <td>{{ m.amount }}</td>
+                <td>{{ m.med_notes }}</td>
+            </tr>
+        {% endfor %}
+      </table><br>
+
+      <!--ele bill table-->
+      <table><br>
+        <tr>
+          <th>bill no</th>
+          <th>transformer type</th> 
+          <th>billed date</th>
+          <th>meter start reading</th>
+          <th>meter end reading</th> 
+          <th>bill amount</th>
+          <th>bill notes</th>
+        </tr>
+        {% for e in ele %}
+            <tr>
+                <td>{{ e.bill_id}}</td>
+                <td>{{ e.transformer_type }}</td>
+                <td>{{ e.billed_date }}</td>
+                <td>{{ e.start_read }}</td>
+                <td>{{ e.end_read }}</td>
+                <td>{{ e.bill_amount }}</td>
+                <td>{{ e.bill_notes }}</td>
+            </tr>
+        {% endfor %}
+      </table><br>
+
+      <!-- export table-->
+      <table><br>
+        <tr>
+          <th>export id</th>
+          <th>date</th> 
+          <th>tank no</th>
+          <th>material weight</th>
+          <th>count</th> 
+          <th>amount</th>
+          <th>export notes</th>
+        </tr>
+        {% for exp in expo %}
+            <tr>
+                <td>{{ exp.exp_id}}</td>
+                <td>{{ exp.date }}</td>
+                <td>{{ exp.tank_no }}</td>
+                <td>{{ exp.material_weight }}</td>
+                <td>{{ exp.count }}</td>
+                <td>{{ exp.amount }}</td>
+                <td>{{ exp.exp_notes }}</td>
+            </tr>
+        {% endfor %}
+      </table><br>
+
+      <!--daily feed-->
+      <table><br>
+        <tr>
+          <th>date</th>
+          <th>tank no</th> 
+          <th>first</th>
+          <th>second</th>
+          <th>third</th> 
+          <th>fourth</th>
+        </tr>
+        {% for f in daily %}
+            <tr>
+                <td>{{ f.date }}</td>
+                <td>{{ f.tank_no }}</td>
+                <td>{{ f.first }}</td>
+                <td>{{ f.second }}</td>
+                <td>{{ f.third }}</td>
+                <td>{{ f.fourth }}</td>
+            </tr>
+        {% endfor %}
+      </table><br>
+</body>
+</html>

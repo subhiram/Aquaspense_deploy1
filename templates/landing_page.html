@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Product | Landing Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'sample.css' %}">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<nav>
+			<div class="logo">
+				<a href="#">
+                    <h1>Aquaspense</h1>
+				</a>
+			</div>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Features</a></li>
+				<li><a href="#">Pricing</a></li>
+				<li><a href="#">Contact</a></li>
+			</ul>
+            <a class="cta-button" href="/login/">Sign In</a>
+		</nav>
+		<div class="hero">
+			<div class="hero-content">
+				<h1>Your Solution to Efficiently Managing Your Business</h1>
+				<p>My Product is the best way to keep track of everything you need to do. It's easy to use, and it's perfect for businesses of all sizes.</p>
+				<a class="cta-button" href="/signup/">Get started now</a>
+			</div>
+			<div class="hero-image">
+				<img src="{% static 'assets/images/dashboard1.png'%}" alt="My Product Image">
+			</div>
+		</div>
+	</header>
+	<main>
+		<section class="features">
+		<div class="features-header">
+			<h2>Features</h2>
+			<p>Here are just a few of the things you can do with My Software Product.</p>
+		</div>
+		<div class="features-list">
+
+			<div class="feature">
+				<div class="feature-icon">
+					<i class="fas fa-user"></i>
+				</div>
+				<div class="feature-content">
+					<h3>Easy to Use</h3>
+					<p>My Product is designed with simplicity in mind. You don't need any technical knowledge to start using it today.</p>
+				</div>
+			</div>
+			<div class="feature">
+				<div class="feature-icon">
+					<i class="fas fa-bell"></i>
+				</div>
+				<div class="feature-content">
+					<h3>Secure</h3>
+					<p>Your data is safe with us. My Product uses industry-standard security measures to protect your information.</p>
+				</div>
+			</div>
+			<div class="feature">
+				<div class="feature-icon">
+					<i class="fas fa-chart-line"></i>
+				</div>
+				<div class="feature-content">
+					<h3>Analytics</h3>
+					<p>Track your crop's progress and see how you're doing over time.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="pricing">
+		<div class="pricing-header">
+			<h2>Pricing</h2>
+			<p>Choose a plan that works for you.</p>
+		</div>
+		<div class="plans">
+			<div class="plan">
+				<h3>Basic</h3>
+				<p>$9.99/month</p>
+				<ul>
+					<li>Task Management</li>
+					<li>User Profiles</li>
+					<li>Notifications</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    </main>
+          {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,241 @@
+crop sub dash board temp:
+
+@login_required(redirect_field_name='userlogin')
+def crop_sub_dashboard(request, pk):
+    crop_id = pk
+    crop = main_crop.objects.get(crop_id=crop_id)
+    context = {
+        'crops': crop
+    }
+    return render(request, 'backup templates/crop_sub_dashoard.html', context=context)
+
+--------------------------------
+Insights file
+def insight(request, pk):
+    # getting information from expenses
+    a = expenses.objects.filter(crop_id=pk)
+    j = []
+    for i in a:
+        j.append(i.exp_cost)
+    print(sum(j))
+    expense_sum = sum(j)
+    print("the total expenses sum is", expense_sum)
+
+    # getting information from worker expenses
+    b = worker.objects.filter(crop_id=pk)
+    work_exp = []
+    for i in b:
+        work_exp.append(i.amount)
+    work_sum = sum(work_exp)
+    print("the total worker expenses are ", work_sum)
+
+    c = feed.objects.filter(crop_id=pk)
+    feed_exp = []
+    for i in c:
+        feed_exp.append(i.bill_amount)
+    feed_sum = sum(feed_exp)
+    print("the total worker expenses are ", feed_sum)
+
+    d = medicine.objects.filter(crop_id=pk)
+    med = []
+    for i in d:
+        med.append(i.amount)
+    med_sum = sum(med)
+    print("the total worker expenses are ", med_sum)
+
+
+    # getting the information from electrical bills
+    e = ele_bill.objects.filter(crop_id=pk)
+    ele = []
+    for i in e:
+        ele.append(i.bill_amount)
+    ele_sum = sum(ele)
+    print("the electrical bill sum is", ele_sum)
+
+    # getting the information from export
+    f = export.objects.filter(crop_id=pk)
+    exp = []
+    for i in f:
+        exp.append(i.amount)
+    export_sum = sum(exp)
+    print("the export sum is", export_sum)
+
+    # getting the information from daily feed
+    #graph1 and graph 2
+    graph1_labels = ['expenses', 'worker', 'electrical']
+    graph1_data = [expense_sum, work_sum, ele_sum]
+    total_data = sum(graph1_data)
+    total_data+= feed_sum+med_sum
+    graph2_labels = ['Total spent', 'Total received']
+    graph2_data = [total_data,export_sum ]
+
+    # graph3
+
+    #getting information on daily feed
+    x = daily_feed.objects.filter(crop_id=pk).filter(tank_no='A1')
+    df = pd.DataFrame(list(x.values()))
+    #a1_sum = df['first'].sum()
+    #for A1
+    #a1_df = df.query("tank_no == 'A1'")
+    #print(df)
+    df['total'] = df['first']+df['second'] + df['third'] + df['fourth']
+    a1_total = df['total'].to_list()
+    a1_label = df['date'].to_list()
+    #print(a1_label, "a1 label")
+    s=[]
+    for i in a1_label:
+        date_obj = datetime.datetime.strptime(str(i), "%Y-%m-%d")
+        s.append(date_obj.strftime("%d-%B"))
+    a1_label=s
+
+
+    # a2 sum
+    x = daily_feed.objects.filter(crop_id=pk).filter(tank_no='A2')
+    df = pd.DataFrame(list(x.values()))
+    a2_df = df.query("tank_no == 'A2'")
+    a2_label = a2_df['date'].to_list()
+    s1=[]
+    for i in a2_label:
+        date_obj = datetime.datetime.strptime(str(i), "%Y-%m-%d")
+        s1.append(date_obj.strftime("%d-%B"))
+    a2_label=s
+    #print(s,"a2 label")
+    a2_df['total'] = a2_df['first']+a2_df['second'] + a2_df['third'] + a2_df['fourth']
+    a2_total = a2_df['total'].to_list()
+    #print(a2_total)
+
+
+    #b1 details
+    x = daily_feed.objects.filter(crop_id=pk).filter(tank_no='B1')
+    df = pd.DataFrame(list(x.values()))
+    b1_df = df.query("tank_no == 'B1'")
+    #print(b1_df)
+    b1_df['total'] = b1_df['first']+b1_df['second'] + b1_df['third'] + b1_df['fourth']
+    b1_total = b1_df['total'].to_list()
+    b1_label = b1_df['date'].to_list()
+    s2 = []
+    for i in b1_label:
+        date_obj = datetime.datetime.strptime(str(i), "%Y-%m-%d")
+        s2.append(date_obj.strftime("%d-%B"))
+    b1_label = s2
+    #print(b1_label, "b1 label")
+    #print(b1_total)
+
+
+    # b2 details
+    x = daily_feed.objects.filter(crop_id=pk).filter(tank_no='B2')
+    df = pd.DataFrame(list(x.values()))
+    b2_df = df.query("tank_no == 'B2'")
+    b2_df['total'] = b2_df['first']+b2_df['second'] + b2_df['third'] + b2_df['fourth']
+    b2_total = b2_df['total'].to_list()
+    b2_label = b2_df['date'].to_list()
+    s3 = []
+    for i in b2_label:
+        date_obj = datetime.datetime.strptime(str(i), "%Y-%m-%d")
+        s3.append(date_obj.strftime("%d-%B"))
+    b2_label = s3
+
+    #graph 4:
+
+    #export details:
+    f = export.objects.filter(crop_id=pk).filter(tank_no='A1')
+    a1_amount = []
+    for a in f:
+        a1_amount.append(a.amount)
+    a1_amount = sum(a1_amount)
+    f = export.objects.filter(crop_id=pk).filter(tank_no='A2')
+    a2_amount = []
+    for a in f:
+        a2_amount.append(a.amount)
+    a2_amount = sum(a2_amount)
+    f = export.objects.filter(crop_id=pk).filter(tank_no='B1')
+    b1_amount = []
+    for p in f:
+        b1_amount.append(int(p.amount))
+    b1_amount_final = sum(b1_amount)
+    f = export.objects.filter(crop_id=pk).filter(tank_no='B2')
+    b2_amount = []
+    for a in f:
+        b2_amount.append(a.amount)
+    b2_amount = sum(b2_amount)
+
+    graph4_label = ['A1','A2','B1', 'B2']
+    graph_4_data = [a1_amount,a2_amount,b1_amount_final,b2_amount]
+
+    #graph 5
+    graph5_label = ['40Kv', '100Kv']
+    e = ele_bill.objects.filter(crop_id=pk).filter(tranformer_type='40kv')
+    sum_40kv = []
+    for i in e:
+        sum_40kv.append(i.bill_amount)
+    sum_40kv = sum(sum_40kv)
+    sum_100kv = []
+    e = ele_bill.objects.filter(crop_id=pk).filter(tranformer_type='100kv')
+    for i in e:
+        sum_100kv.append(i.bill_amount)
+    sum_100kv = sum(sum_100kv)
+    graph5_data = [sum_40kv,sum_100kv]
+    crop_id = pk
+    crop = main_crop.objects.get(crop_id=crop_id)
+    #info for matching daily feed totol with feed bills
+
+    return render(request, 'backup templates/graphs.html', {
+        'graph1_labels': graph1_labels,
+        'graph1_data': graph1_data,
+        'graph2_labels':graph2_labels,
+        'graph2_data':graph2_data,
+        'graph4_label':graph4_label,
+        'graph4_data': graph_4_data,
+        'graph5_label':graph5_label,
+        'graph5_data': graph5_data,
+        'a1_label':a1_label,
+        'a1_total': a1_total,
+        'a2_label': a2_label,
+        'a2_total': a2_total,
+        'b1_label': b1_label,
+        'b1_total': b1_total,
+        'b2_label': b2_label,
+        'b2_total': b2_total,
+        'crops':crop,
+
+
+    })
+
+--------------------------------------
+chart view:
+def chart_view(request):
+    df = ['40kv', '100kv']
+    df1 = [10000, 20000]
+    my = {
+        'df': df,
+        'df1': df1
+    }
+    return render(request, 'expense_add.html', context=my)
+--------------------------------------
+def add_data(request,pk):
+    tank = 'B2'
+    df = pd.read_csv('new_crop_sheet/B2-Table 1.csv')
+
+
+    df['date'] = pd.to_datetime(df['date'], dayfirst=True)
+
+    #df['date'] = pd.to_datetime(df['date'],errors='coerce', dayfirst=True)
+    print(df)
+    df = df.assign(tank=tank)
+    print(df)
+    row_iter = df.iterrows()
+    obj = [
+        daily_feed(
+            date=row['date'],
+            tank_no=tank,
+            first=row['first'],
+            second=row['second'],
+            third=row['Third'],
+            fourth=row['fourth'],
+            crop_id=pk
+        )
+        for index,row in row_iter
+    ]
+    print(len(obj))
+    daily_feed.objects.bulk_create(obj)
+    return redirect(user_login)

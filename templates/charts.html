@@ -1,0 +1,403 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Charts page</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static '/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End Plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static '/assets/css/style.css' %}">
+    <!-- End layout styles -->
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+
+            var graph2_labels = {{ graph2_labels|safe }};
+            var graph2_total = {{ graph2_total|safe }};
+            var graph3_labels = {{ graph3_labels|safe }};
+            var graph3_total = {{ graph3_total|safe }};
+            var graph4_labels = {{ graph4_labels|safe }};
+            var graph4_total = {{ graph4_total|safe }};
+            var graph5_labels = {{ graph5_labels|safe }};
+            var graph5_total = {{ graph5_total|safe }};
+            var graph6_labels = {{ graph6_labels|safe }};
+            var graph6_total = {{ graph6_total|safe }};
+
+        </script>
+
+
+  </head>
+  <body>
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-md-center">
+          <!--<a class="navbar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo.svg" alt="logo" /></a>
+          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>-->
+            <h3>  Aquaspense</h3>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-menu"></span>
+          </button>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item nav-profile dropdown">
+              <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
+              </div>
+            </li>
+            <li class="nav-item nav-logout d-none d-lg-block">
+              <a class="nav-link" href="#">
+                <i class="mdi mdi-power"></i>
+              </a>
+            </li>
+            <li class="nav-item nav-settings d-none d-lg-block">
+              <a class="nav-link" href="#">
+                <i class="mdi mdi-format-line-spacing"></i>
+              </a>
+            </li>
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <!--<li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+
+                  <label class="mdi mdi-account-check" size="100px"></label>
+                <div class="nav-profile-text d-flex flex-column">
+                  <span class="font-weight-bold mb-2">David Grey. H</span>
+                  <span class="text-secondary text-small">Project Manager</span>
+                </div>
+                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+              </a>
+            </li>-->
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard/{{ crop_id }}">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+            {% if crop.status == 'ongoing' %}
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Add</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+              </a>
+              <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="/add_daily_feed/{{ crop_id }}">Daily Feed</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_expense/{{ crop_id }}">Expenses</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/add_workerexp/{{ crop_id }}">Worker expenses</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_feed/{{ crop_id }}">Feed bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_medicine/{{ crop_id }}">Medicine bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_elebill/{{ crop_id }}">Electricity bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_export/{{ crop_id }}">Export bills</a></li>
+
+                </ul>
+              </div>
+            </li>
+              {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/graph/{{ crop_id }}">
+                <span class="menu-title">Charts</span>
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/complete_view/{{ crop_id }}">
+                <span class="menu-title">Tables</span>
+                <i class="mdi mdi-table-large menu-icon"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">A1 tank</h4>
+                    <canvas id="graph1" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">A2 tank</h4>
+                    <canvas id="graph2" style="height:230px"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">B1 tank</h4>
+                    <canvas id="graph3" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">B2 tank</h4>
+                    <canvas id="graph4" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Electricity bill comparison</h4>
+                    <canvas id="graph5" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Export costs</h4>
+                    <canvas id="graph6" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+        <script src="{% static '/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script>
+    window.alert(graph1_labels);
+    window.alert(graph1_total);
+</script>
+    <script type="text/javascript">
+            var graph1_labels = {{ graph1_labels|safe }};
+            var graph1_total = {{ graph1_total|safe }};
+            var ctx = document.getElementById('graph1');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: graph1_labels,
+                datasets: [{
+                  label: '# of Kg',
+                  data: graph1_total,
+
+                }]
+              },
+              options: {
+                  animation: {
+                    duration:3000,
+                  },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+        <script type="text/javascript">
+            var graph2_labels = {{ graph2_labels|safe }};
+            var graph2_total = {{ graph2_total|safe }};
+            var ctx = document.getElementById('graph2');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: graph2_labels,
+                datasets: [{
+                  label: '# of Kg',
+                  data: graph2_total,
+
+                }]
+              },
+              options:{
+                  animation: {
+                    duration:3000,
+                  },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+        <script type="text/javascript">
+            var graph3_labels = {{ graph3_labels|safe }};
+            var graph3_total = {{ graph3_total|safe }};
+            var ctx = document.getElementById('graph3');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: graph3_labels,
+                datasets: [{
+                  label: '# of Kg',
+                  data: graph3_total,
+
+                }]
+              },
+              options: {
+                  animation: {
+                    duration:3000,
+                  },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+        <script type="text/javascript">
+            var graph4_labels = {{ graph4_labels|safe }};
+            var graph4_total = {{ graph4_total|safe }};
+
+            var ctx = document.getElementById('graph4');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: graph4_labels,
+                datasets: [{
+                  label: '# of Kg',
+                  data: graph4_total,
+
+                }]
+              },
+              options: {
+                  animation: {
+                    duration:3000,
+                  },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+
+    <!-- graph 5-->
+        <script type="text/javascript">
+            var g1 = document.getElementById('graph5');
+            new Chart(g1, {
+              type: 'doughnut',
+              data: {
+                labels: graph5_labels,
+                datasets: [{
+                  label: 'amount in rupees',
+                  data: graph5_total,
+                          backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                  ],
+                  borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                  ],
+                }]
+              },
+              options: {
+                  responsive: true,
+                animation: {
+                    duration:1500,
+                  animateScale: true,
+                  animateRotate: true
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+        </script>
+        <!-- graph 6-->
+                  <script type="text/javascript">
+            var g1 = document.getElementById('graph6');
+            new Chart(g1, {
+              type: 'pie',
+              data: {
+                labels: graph6_labels,
+                datasets: [{
+                  label: 'amount in rupees',
+                  data: graph6_total,
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                  ],
+                  borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                  ],
+
+                }]
+              },
+              options: {
+                  animation: {
+                    duration:1500,
+                  },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+
+          </script>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+
+    <!-- End custom js for this page -->
+  </body>
+</html>

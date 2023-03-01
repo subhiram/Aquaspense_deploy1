@@ -1,0 +1,386 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+    <title>Crop dashboard</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static '/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static '/assets/css/style.css' %}">
+    <!-- End layout styles -->
+
+      <style>
+          #scroll {
+    position:fixed;
+    right:10px;
+    bottom:10px;
+    cursor:pointer;
+    width:50px;
+    height:50px;
+    background-color:#3498db;
+    text-indent:-9999px;
+    display:none;
+    -webkit-border-radius:60px;
+    -moz-border-radius:60px;
+    border-radius:60px
+}
+#scroll span {
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-left:-8px;
+    margin-top:-12px;
+    height:0;
+    width:0;
+    border:8px solid transparent;
+    border-bottom-color:#ffffff;
+}
+#scroll:hover {
+    background-color:#e74c3c;
+    opacity:1;filter:"alpha(opacity=100)";
+    -ms-filter:"alpha(opacity=100)";
+}
+      </style>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+    (function () {
+	window.onpageshow = function(event) {
+		if (event.persisted) {
+			window.location.reload();
+		}
+	};
+})();
+</script>
+
+
+  </head>
+  <body>
+  {% if user.is_authenticated %}
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-md-center">
+          <!--<a class="navbar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo.svg" alt="logo" /></a>
+          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>-->
+            <h3>  Aquaspense</h3>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-menu"></span>
+          </button>
+
+          <ul class="navbar-nav navbar-nav-right">
+             <!--<li class="nav-item nav-logout d-none d-lg-block">
+                <h6> Status: {{  crop.status }}</h6>
+            </li>-->
+
+              <li class="nav-item nav-logout d-none d-lg-block">
+              <a class="nav-link" href="/maindash/{{ user.id }}">
+                <i class="mdi mdi-home"></i>
+              </a>
+            </li>
+            <li class="nav-item nav-logout d-none d-lg-block">
+              <a class="nav-link" href="#">
+                <i class="mdi mdi-power"></i>
+              </a>
+            </li>
+
+              <!--<button type="button" class="btn btn-primary btn-fw">Primary</button>-->
+                           <li class="nav-item nav-logout d-none d-lg-block">
+              <a class="nav-link" href="{% url 'logout' %}">
+                <i class="mdi mdi-logout"></i>
+              </a>
+            </li>
+
+            <!--<li class="nav-item nav-settings d-none d-lg-block">
+              <a class="nav-link" href="#">
+                <i class="mdi mdi-format-line-spacing"></i>
+              </a>
+            </li>-->
+          </ul>
+
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <!--<li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+
+                  <label class="mdi mdi-account-check" size="100px"></label>
+                <div class="nav-profile-text d-flex flex-column">
+                  <span class="font-weight-bold mb-2">David Grey. H</span>
+                  <span class="text-secondary text-small">Project Manager</span>
+                </div>
+                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+              </a>
+            </li>-->
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard/{{ crop_id }}">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+
+              {% if crop.status == 'ongoing' %}
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Add</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+              </a>
+              <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="/add_daily_feed/{{ crop_id }}">Daily Feed</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_expense/{{ crop_id }}">Expenses</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/add_workerexp/{{ crop_id }}">Worker expenses</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_feed/{{ crop_id }}">Feed bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_medicine/{{ crop_id }}">Medicine bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_elebill/{{ crop_id }}">Electricity bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_export/{{ crop_id }}">Export bills</a></li>
+                  <!--<li class="nav-item"> <a class="nav-link" href="/add_data/{{ crop_id }}">add data </a></li>-->
+
+                </ul>
+              </div>
+            </li>
+              {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/graph/{{ crop_id }}">
+                <span class="menu-title">Charts</span>
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/complete_view/{{ crop_id }}">
+                <span class="menu-title">Tables</span>
+                <i class="mdi mdi-table-large menu-icon"></i>
+              </a>
+            </li>
+            {% if crop.status == 'ongoing' %}
+            <li class="nav-item sidebar-actions">
+              <span class="nav-link">
+                <div class="border-bottom">
+                  <h6 class="font-weight-normal mb-3">Complete crop</h6>
+                </div>
+                <a href="/complete_crop/{{ crop_id }}/{{ total_days }}/" onclick="return confirm('are you sure you want to complete the crop?')"><button class="btn btn-block btn-lg btn-gradient-primary mt-4" ;>Complete crop</button></a>
+              </span>
+            </li>
+          {% endif %}
+          </ul>
+
+        </nav>
+        <!-- partial -->
+
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+                <a href="#" id="scroll" style="display: none;"><span></span></a>
+              <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                  <i class="mdi mdi-home"></i>
+                </span> Dashboard
+              </h3>
+              <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <span></span><strong>Status: {{ crop.status }}</strong> <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="row">
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-danger card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Total expenses <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">Rs. {{ total_expense }}</h2>
+                    <h6 class="card-text"></h6><!--write subs here -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Total Days <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">{{ total_days }} days</h2>
+                    <h6 class="card-text"></h6><!--write subs here -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 stretch-card grid-margin">
+                <div class="card bg-gradient-success card-img-holder text-white">
+                  <div class="card-body">
+                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Total feed <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                    </h4>
+                    <h2 class="mb-5">{{ total_feed }} kg</h2>
+                    <h6 class="card-text">Approx. {{ total_bags }} bags </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-7 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix">
+                      <h4 class="card-title float-left">Expense statistics</h4>
+                      <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                    </div>
+                      {% if graph1_total is None %}
+                        <h4>No data available</h4>
+                      {% else %}
+                          <canvas id="graph1" class="mt-4"></canvas>
+                      {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Total expense and export statistics</h4>
+                    <canvas id="graph2"></canvas>
+                    <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+          {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static '/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="assets/vendors/chart.js/Chart.min.js"></script>
+    <!--<script src="{% static 'assets/js/jquery.cookie.js' %}" type="text/javascript"></script>-->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <!--<script src="{% static 'assets/js/dashboard.js' %}"></script>-->
+    <script src="assets/js/todolist.js"></script>
+    <!-- End custom js for this page -->
+          <script type="text/javascript">
+            var graph1_labels = {{ graph1_labels|safe }};
+            var graph1_total = {{ graph1_total|safe }};
+            var ctx = document.getElementById('graph1');
+            new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: graph1_labels,
+                datasets: [{
+                  label: '# ruppes',
+                  data: graph1_total,
+
+                }]
+              },
+              options: {
+                  animation: {
+                      onComplete: ()=>{
+                          delayed: true;
+                      },
+                      delay: (context) =>{
+                      let delay=0;
+                      console.log(context.data)
+                      console.log(context.mode)
+                      if (context.type === 'data' && context.mode==='default'){
+                          delay = context.dataIndex * 300;
+                      }
+                      return delay
+                  }
+
+                  },
+
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+  <!-- graph2 indicating the total spent and received as of now-->
+            <script type="text/javascript">
+
+
+            var graph2_labels = {{ graph2_labels|safe }};
+            var graph2_total = {{ graph2_total|safe }};
+            var ctx = document.getElementById('graph2');
+            new Chart(ctx, {
+              type: 'pie',
+              data: {
+                labels: graph2_labels,
+                datasets: [{
+                  label: '# ruppes',
+                  data: graph2_total,
+                }]
+              },
+              options: {
+
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+
+          </script>
+      <!--            function handleHover(evt, item, legend) {
+              legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
+                colors[index] = index === item.index || color.length === 9 ? color : color + '4D';
+              });
+              legend.chart.update();
+                }
+             function handleLeave(evt, item, legend) {
+          legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
+            colors[index] = color.length === 9 ? color.slice(0, -2) : color;
+          });
+          legend.chart.update();
+        }-->                <!--plugins: {
+                  legend: {
+                    onHover: handleHover,
+                    onLeave: handleLeave
+                  }
+                },-->
+{% endif %}
+  </body>
+</html>

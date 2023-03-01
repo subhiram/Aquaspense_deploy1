@@ -1,0 +1,405 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Data view</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static '/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static '/assets/css/style.css' %}">
+    <!-- End layout styles -->
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-md-center">
+          <!--<a class="navbar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo.svg" alt="logo" /></a>
+          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>-->
+            <h3>  Aquaspense</h3>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-menu"></span>
+          </button>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item nav-profile dropdown">
+              <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
+              </div>
+            </li>
+            <li class="nav-item nav-logout d-none d-lg-block">
+              <a class="nav-link" href="#">
+                <i class="mdi mdi-power"></i>
+              </a>
+            </li>
+            <li class="nav-item nav-settings d-none d-lg-block">
+              <a class="nav-link" href="#">
+                <i class="mdi mdi-format-line-spacing"></i>
+              </a>
+            </li>
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <!--<li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+
+                  <label class="mdi mdi-account-check" size="100px"></label>
+                <div class="nav-profile-text d-flex flex-column">
+                  <span class="font-weight-bold mb-2">David Grey. H</span>
+                  <span class="text-secondary text-small">Project Manager</span>
+                </div>
+                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+              </a>
+            </li>-->
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard/{{ crop_id }}">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+            {% if crop.status == 'ongoing' %}
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Add</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+              </a>
+              <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="/add_daily_feed/{{ crop_id }}">Daily Feed</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_expense/{{ crop_id }}">Expenses</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/add_workerexp/{{ crop_id }}">Worker expenses</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_feed/{{ crop_id }}">Feed bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_medicine/{{ crop_id }}">Medicine bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_elebill/{{ crop_id }}">Electricity bills</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/add_export/{{ crop_id }}">Export bills</a></li>
+
+                </ul>
+              </div>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/graph/{{ crop_id }}">
+                <span class="menu-title">Charts</span>
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/complete_view/{{ crop_id }}">
+                <span class="menu-title">Tables</span>
+                <i class="mdi mdi-table-large menu-icon"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> All your data at one place </h3>
+
+            </div>
+          <div class="row">
+            <!-- expense table -->
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Expense table</h4>
+                    <!--<p class="card-description"> Add class <code>.table-bordered</code></p>-->
+
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Expense name</th>
+                          <th>Cost</th>
+                          <th>Date</th>
+                          <th>Paid to</th>
+                            <th>Notes</th>
+                            <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for exp in expense %}
+                      <tr>
+                          <td>{{ exp.exp_name }}</td>
+                          <td> Rs {{ exp.exp_cost }}</td>
+                          <td>{{ exp.exp_date }}</td>
+                          <td>{{ exp.exp_paidto }}</td>
+                          <td>{{ exp.exp_notes }}</td>
+                          <td><a href="/delete/expenses/{{ exp.exp_no }}"><label class="mdi mdi-delete">Delete</label></a></td>
+
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            <!-- worker expense table -->
+                <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Worker Expense table</h4>
+                    <!--<p class="card-description"> Add class <code>.table-bordered</code></p>-->
+
+                    <table class="table">
+                      <thead>
+                        <tr>
+                        <th>worker no</th>
+                        <th>worker name</th>
+                        <th>date</th>
+                        <th>amount</th>
+                        <th>worker notes</th>
+                            <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for work in work_exp %}
+                      <tr>
+                        <td>{{ work.worker_no }}</td>
+                        <td>{{ work.worker_name }}</td>
+                        <td>{{ work.date }}</td>
+                        <td>{{ work.amount }}</td>
+                        <td>{{ work.worker_notes }}</td>
+                          <td><a href="/delete/worker/{{ work.worker_no }}"><label class="mdi mdi-delete">Delete</label></a></td>
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            <!-- feed table -->
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Feed table</h4>
+
+                    </p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th> Date </th>
+                          <th> Shop name </th>
+                          <th> Bill no </th>
+                          <th> Type </th>
+                          <th> Bill amount </th>
+                          <th> Quantity </th>
+                          <th> Notes </th>
+                            <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for feed in feed_view %}
+                            <tr>
+                              <td> {{ feed.date }} </td>
+                              <td> {{ feed.shop_name }} </td>
+                              <td>{{ feed.bill_no }}</td>
+                              <td>{{ feed.type }}</td>
+                              <td> $ {{ feed.bill_amount }}</td>
+                              <td> {{ feed.quantity }}</td>
+                                <td> {{ feed.feed_notes }}</td>
+                                <td><a href="/delete/feed/{{ feed.feed_id }}"><label class="mdi mdi-delete">delete</label></a></td>
+                            </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+                        <!-- medicine table -->
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Medicine table table</h4>
+                    </p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                            <th>medicine id</th>
+                            <th>medicine name</th>
+                            <th>date</th>
+                            <th>bill no</th>
+                            <th>quanity</th>
+                            <th>amount</th>
+                            <th>medicine notes</th>
+                            <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for m in med %}
+                            <tr>
+                            <td>{{ m.med_id }}</td>
+                            <td>{{ m.med_name }}</td>
+                            <td>{{ m.date }}</td>
+                            <td>{{ m.bill_no }}</td>
+                            <td>{{ m.quantity }}</td>
+                            <td>{{ m.amount }}</td>
+                            <td>{{ m.med_notes }}</td>
+                                <td><a href="/delete/med/{{ m.med_id }}"><label class="mdi mdi-delete">delete</label></a></td>
+                            </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+                                    <!-- electrical bill table -->
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Electricity bill table</h4>
+                    </p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                <th>bill no</th>
+                <th>transformer type</th>
+                <th>billed date</th>
+                <th>meter start reading</th>
+                <th>meter end reading</th>
+                <th>bill amount</th>
+                <th>bill notes</th>
+                            <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for e in ele %}
+                            <tr>
+                <td>{{ e.bill_id}}</td>
+                <td>{{ e.tranformer_type }}</td>
+                <td>{{ e.billed_date }}</td>
+                <td>{{ e.start_read }}</td>
+                <td>{{ e.end_read }}</td>
+                <td>{{ e.bill_amount }}</td>
+                <td>{{ e.bill_notes }}</td>
+                                <td><a href="/delete/ele/{{ e.bill_id }}"><label class="mdi mdi-delete">delete</label></a></td>
+                            </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+                                                <!-- export table -->
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Export bill table</h4>
+                    </p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                <th>export id</th>
+                <th>date</th>
+                <th>tank no</th>
+                <th>material weight</th>
+                <th>count</th>
+                <th>amount</th>
+                <th>export notes</th>
+                            <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for exp in expo %}
+                            <tr>
+                <td>{{ exp.exp_id}}</td>
+                <td>{{ exp.date }}</td>
+                <td>{{ exp.tank_no }}</td>
+                <td>{{ exp.material_weight }}</td>
+                <td>{{ exp.count }}</td>
+                <td>{{ exp.amount }}</td>
+                <td>{{ exp.exp_notes }}</td>
+                                <td><a href="/delete/export/{{ exp.exp_id }}"><label class="mdi mdi-delete">delete</label></a></td>
+                            </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+                <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Daily feed table</h4>
+                    <!--<p class="card-description"> Add class <code>.table-bordered</code></p>-->
+
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                        <th>date</th>
+                        <th>tank no</th>
+                        <th>first</th>
+                        <th>second</th>
+                        <th>third</th>
+                        <th>fourth</th>
+                            <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for f in daily %}
+                      <tr>
+                        <td>{{ f.date }}</td>
+                        <td>{{ f.tank_no }}</td>
+                        <td>{{ f.first }}</td>
+                        <td>{{ f.second }}</td>
+                        <td>{{ f.third }}</td>
+                        <td>{{ f.fourth }}</td>
+                          <td><a href="/delete/daily/{{ f.id }}"><label class="mdi mdi-delete">Delete</label></a></td>
+
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static '/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../../assets/js/off-canvas.js"></script>
+    <script src="../../assets/js/hoverable-collapse.js"></script>
+    <script src="../../assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <!-- End custom js for this page -->
+  </body>
+</html>

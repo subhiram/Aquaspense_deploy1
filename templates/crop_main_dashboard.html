@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>crop main dashboard</title>
+    <link rel="stylesheet" type="text/css" href='{% static "/sample.css" %}'>
+</head>
+<body>
+<h1>crop main dashboard</h1>
+{% for crop in crops %}
+    <a href="/sub/{{ crop.crop_id }}"><h3>crop name: {{ crop.crop_name }}</h3></a>
+    <h3>crop start date: {{ crop.crop_date }}</h3>
+{% endfor %}
+</body>
+</html>
