@@ -125,7 +125,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/complete_view/{{ crop_id }}">
+              <a class="nav-link" href="#">
                 <span class="menu-title">Tables</span>
                 <i class="mdi mdi-table-large menu-icon"></i>
               </a>
@@ -208,14 +208,20 @@
             var graph1_total = {{ graph1_total|safe }};
             var ctx = document.getElementById('graph1');
             new Chart(ctx, {
-              type: 'bar',
+
               data: {
                 labels: graph1_labels,
                 datasets: [{
-                  label: '# Rupees',
+                  label: 'Expenses',
                   data: graph1_total,
+                   type: 'bar',
 
-                }]
+                },
+                    {
+                  label: 'Electricity expenses',
+                  data: graph4_total,
+                   type: 'line',
+                    }]
               },
               options: {
                   animation: {

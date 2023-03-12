@@ -177,9 +177,9 @@ document.getElementById("myDiv").style.display = "block";
                       {% for crop in crops %}
                         <tr>
 
-                          <td><a style="text-decoration: none" href="/dashboard/{{ crop.crop_id }}" >{{ crop.crop_name }}</a></td>
-                          <td>{{ crop.location }}</td>
-                          <td>{{ crop.crop_date }}</td>
+                          <td><a style="text-decoration: none;text-decoration-color: black" href="/dashboard/{{ crop.crop_id }}" >{{ crop.crop_name }}</a></td>
+                          <td><a style="text-decoration: none" href="/dashboard/{{ crop.crop_id }}" >{{ crop.location }}</a></td>
+                          <td><a style="text-decoration: none" href="/dashboard/{{ crop.crop_id }}" >{{ crop.crop_date }}</a></td>
                           <td><label class="badge badge-warning">In progress</label></td>
                         </tr>
                       {% endfor %}

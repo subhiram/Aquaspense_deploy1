@@ -23,7 +23,7 @@
 				<li><a href="#">Contact</a></li>
 			</ul>
             <a class="cta-button" href="/login/">Sign In</a>
-		</nav>
+		</nav><br>
 		<div class="hero">
 			<div class="hero-content">
 				<h1>Your Solution to Efficiently Managing Your Business</h1>
@@ -31,9 +31,9 @@
 				<a class="cta-button" href="/signup/">Get started now</a>
 			</div>
 			<div class="hero-image">
-				<img src="{% static 'assets/images/dashboard1.png'%}" alt="My Product Image">
+				<img src="{% static 'assets/images/dash.png'%}" alt="My Product Image">
 			</div>
-		</div>
+		</div><br>
 	</header>
 	<main>
 		<section class="features">
@@ -74,21 +74,31 @@
 	</section>
 	<section class="pricing">
 		<div class="pricing-header">
-			<h2>Pricing</h2>
-			<p>Choose a plan that works for you.</p>
+			<h2>About me</h2>
+            <h4>S G B Subhiram Gurlinka</h4>
+			<p>AI and Web developer</p>
 		</div>
 		<div class="plans">
 			<div class="plan">
-				<h3>Basic</h3>
-				<p>$9.99/month</p>
+				<h3>My skills</h3>
 				<ul>
-					<li>Task Management</li>
-					<li>User Profiles</li>
-					<li>Notifications</li>
-                </ul>
+					<li>AI and Machine learning</li>
+					<li>Web development</li>
+					<li>Python</li>
+                    <li>Django and Flask</li>
+                </ul><br>
+                <h3>Contact</h3>
+                <p>Dm me at <strong>gurlinkasubhiram@gmail.com</strong></p>
             </div>
         </div>
     </section>
+    <section class="features">
+		<div class="features-header">
+			<h2>New features Coming soon !!!</h2>
+            <p><strong>stay tuned !!!</strong></p>
+		</div>
+	</section>
+
     </main>
           {% if messages %}
         {% for message in messages %}

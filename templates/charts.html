@@ -208,28 +208,34 @@
             var graph1_labels = {{ graph1_labels|safe }};
             var graph1_total = {{ graph1_total|safe }};
             var ctx = document.getElementById('graph1');
-            new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: graph1_labels,
-                datasets: [{
-                  label: '# of Kg',
-                  data: graph1_total,
 
-                }]
-              },
-              options: {
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: graph1_labels,
+                    datasets: [{
+                        label: '# of Kg',
+                        data: graph1_total,
+
+                    }]
+                },
+                options:{
                   animation: {
                     duration:3000,
                   },
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+
+
               }
             });
-          </script>
+    </script>
         <script type="text/javascript">
             var graph2_labels = {{ graph2_labels|safe }};
             var graph2_total = {{ graph2_total|safe }};
