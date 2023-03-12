@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
-
+from django.db.models import Avg
 from django.views.decorators.cache import never_cache
 
 # product landing page
@@ -879,6 +879,97 @@ def error_404_view(request, exception):
 
 
 #adding data through csv files (to be working on this)
+
+# adding a profile page
+# pk is the user id here
+def profile(request,pk):
+    s = User.objects.get(id=pk)
+    print(s.username)
+    print(s.email)
+    print(s.first_name)
+    print(s.last_name)
+
+# cost estimation for the future crop
+def estimate(request,pk):
+    # pk is the crop id here
+    # single_day_feed variable is for feed for single day (multiply with the no of days to get the total feed for the total days)
+    if request.method == 'POST':
+        count = int(request.POST['count']) #count label
+        count_amt = int(request.POST['count_amt']) #cost of count
+        count1 = int(request.POST['count1']) #label of count1
+        count1_amt = int(request.POST['count1_amt']) #cost of count1
+        total_weight = int(request.POST['weight']) # estimated weight of the tank
+        predicted_weight = int(request.POST['pred_weight'])
+        days = int(request.POST['days']) #no of days between count1 and count2
+        bag_cost = int(request.POST['bag_cost']) # cost of a single feed bag
+        print(count)
+        print(count_amt)
+        print(count1)
+        print(count1_amt)
+        print(total_weight)
+        print(predicted_weight)
+        print(days)
+        print(bag_cost)
+        #getting the base amount
+        base_amt = total_weight*count_amt
+        print(base_amt,"is the amount you will receive if you export now")
+
+
+        # amount for total feed for the next x days
+        electric = ele_bill.objects.filter(crop_id=pk).aggregate(Avg('bill_amount'))
+        print(electric['bill_amount__avg'])
+        electric_amt = electric['bill_amount__avg']
+        print(electric_amt," is the electric expenses")
+        x = daily_feed.objects.filter(crop_id=pk).order_by('date')
+        if x:
+            print('true')
+            df = pd.DataFrame(list(x.values()))
+            df['total'] = df['first'] + df['second'] + df['third'] + df['fourth']
+            print(df['total'].mean()," is the average of the feed")
+            total_feed = df['total'].sum()
+            t = df.tail(1)
+            single_day_feed = int(t['total'])
+            print(single_day_feed)
+            total_feed_kg= single_day_feed*days
+            total_feed_cost = (total_feed_kg/25)*bag_cost
+            print(total_feed_cost, "is the total feed cost for n days")
+            #total_bags = round(total_feed / 25)
+            #print(total_bags)
+        #getting the exepenses average for that particular crop
+        try:
+
+            exp = expenses.objects.filter(crop_id=pk).aggregate(Avg('exp_cost'))
+            work_exp = worker.objects.filter(crop_id=pk).aggregate(Avg('amount'))
+            total_exp = exp['exp_cost__avg']+work_exp['amount__avg']
+            print(total_exp)
+        except:
+            print("data not available")
+            total_exp=0
+
+        net1 = count1_amt*predicted_weight # estimated total amount
+        net0 = total_exp+total_feed_cost+electric_amt # estimated expenses for the x number of days
+        print(net1,"is the net1 amount which is the product of count and predicted weight")
+        print(net0, "is the net0 amount which is the sum of expenses electrical and feed")
+        final = net1-net0
+        print(final, "is the final amount")
+        profit_amt = final-base_amt
+        print(profit_amt, "is the profit amount")
+        context = {
+            'current_returns': base_amt,
+            'estimated_return': net1,
+            'estimated_profit': profit_amt,
+            'estimated_expenses': net0,
+            'crop_id': pk
+        }
+        return render(request, 'estimate.html', context=context)
+    context={
+        'current_returns':'calculating',
+        'estimated_return': 'calculating',
+        'estimated_profit': 'calculating',
+        'estimated_expenses': 'calculating',
+        'crop_id':pk
+    }
+    return render(request,'estimate.html',context=context)
 
 
 

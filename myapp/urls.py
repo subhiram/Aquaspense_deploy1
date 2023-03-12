@@ -22,7 +22,9 @@ urlpatterns = [
     path('signup/',views.signup),
     path('login/', views.user_login,name='login'),
     path('logout', views.user_logout, name='logout'),
-    path('add_data/<pk>/', views.add_data),
+    #path('add_data/<pk>/', views.add_data),
     path('main_graph/<pk>/', views.maindash_graph),
-    path('complete_crop/<pk>/<days>/',views.complete_btn_update)
+    path('complete_crop/<pk>/<days>/',views.complete_btn_update),
+    path('profile/<pk>/', views.profile),
+    path('estimate/<pk>/', views.estimate)
 ]
