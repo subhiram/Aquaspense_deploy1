@@ -19,20 +19,7 @@
     <!-- End layout styles -->
 
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
 
-            var graph2_labels = {{ graph2_labels|safe }};
-            var graph2_total = {{ graph2_total|safe }};
-            var graph3_labels = {{ graph3_labels|safe }};
-            var graph3_total = {{ graph3_total|safe }};
-            var graph4_labels = {{ graph4_labels|safe }};
-            var graph4_total = {{ graph4_total|safe }};
-            var graph5_labels = {{ graph5_labels|safe }};
-            var graph5_total = {{ graph5_total|safe }};
-            var graph6_labels = {{ graph6_labels|safe }};
-            var graph6_total = {{ graph6_total|safe }};
-
-        </script>
 
 
   </head>
@@ -196,6 +183,20 @@
     <script src="{% static 'assets/js/off-canvas.js' %}"></script>
     <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
     <script src="{% static 'assets/js/misc.js' %}"></script>
+            <script>
+
+            var graph2_labels = {{ graph2_labels|safe }};
+            var graph2_total = {{ graph2_total|safe }};
+            var graph3_labels = {{ graph3_labels|safe }};
+            var graph3_total = {{ graph3_total|safe }};
+            var graph4_labels = {{ graph4_labels|safe }};
+            var graph4_total = {{ graph4_total|safe }};
+            var graph5_labels = {{ graph5_labels|safe }};
+            var graph5_total = {{ graph5_total|safe }};
+            var graph6_labels = {{ graph6_labels|safe }};
+            var graph6_total = {{ graph6_total|safe }};
+
+        </script>
     <script>
     window.alert(graph1_labels);
     window.alert(graph1_total);
