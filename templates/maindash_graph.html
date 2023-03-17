@@ -42,9 +42,9 @@
       <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-md-center">
-          <!--<a class="navbar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo.svg" alt="logo" /></a>
-          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>-->
-            <h3>  Aquaspense</h3>
+          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo.svg" alt="logo" /></a>
+          <!--<a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>-->
+            <a href="/maindash/{{ user.id }}" style="text-decoration: none" class="navbar-brand brand-logo"><h3>  Aquaspense</h3></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -124,12 +124,6 @@
                 <i class="mdi mdi-chart-bar menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="menu-title">Tables</span>
-                <i class="mdi mdi-table-large menu-icon"></i>
-              </a>
-            </li>
           </ul>
         </nav>
         <!-- partial -->
@@ -198,7 +192,10 @@
       </div>
       <!-- page-body-wrapper ends -->
     </div>
-        <script src="{% static '/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static '/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
     <script>
     window.alert(graph1_labels);
     window.alert(graph1_total);
