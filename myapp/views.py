@@ -545,15 +545,19 @@ def create_daily_feed(request, pk):
         print(second)
         print(third)
         print(fourth)
+        try:
+            daily_feed.objects.get(crop_id=crop_id, date=date, tank_no=tank_no)
+            messages.info(request, "⚠️the record already exists! please check in the tables page")
+        except:
 
-        cr = daily_feed.objects.create(crop_id=crop_id, date=date, tank_no=tank_no, first=first, second=second,
-                                       third=third, fourth=fourth)
-        cr.save()
-        messages.success(request, 'daily feed added successfully!')
-        context= {
-            'cropid':pk
-        }
-        print("new daily feed added")
+            cr = daily_feed.objects.create(crop_id=crop_id, date=date, tank_no=tank_no, first=first, second=second,
+                                           third=third, fourth=fourth)
+            cr.save()
+            messages.success(request, 'daily feed added successfully!')
+            context= {
+                'cropid':pk
+            }
+            print("new daily feed added")
         return render(request, 'dailyfeed_add.html', {'crop_id': pk})
 
     return render(request, 'dailyfeed_add.html', {'crop_id': pk})
