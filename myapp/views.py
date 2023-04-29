@@ -546,12 +546,10 @@ def create_daily_feed(request, pk):
         print(third)
         print(fourth)
         try:
-            daily_feed.objects.get(crop_id=crop_id, date=date, tank_no=tank_no)
-            #check if the emoji is working on different devices
-            messages.info(request, "⚠️the record already exists! please check in the tables page")
-
+            a = daily_feed.objects.get(crop_id=crop_id, date=date, tank_no=tank_no)
+            if a:
+                messages.info(request, "️the record already exists!")
         except:
-
             cr = daily_feed.objects.create(crop_id=crop_id, date=date, tank_no=tank_no, first=first, second=second,
                                            third=third, fourth=fourth)
             cr.save()
