@@ -557,6 +557,7 @@ def create_daily_feed(request, pk):
             context= {
                 'cropid':pk
             }
+            #printing data
             print("new daily feed added")
         return render(request, 'dailyfeed_add.html', {'crop_id': pk})
 
