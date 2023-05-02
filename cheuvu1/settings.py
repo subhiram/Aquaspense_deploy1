@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-%#$nhxlbk4u6@oj%wm$6vvu&3pc8sa+$o@y-^q*$r61g2#+20(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['20.75.92.204','www.aqauspense.com','aquaspense.com','aquaspense.eastus2.cloudapp.azure.com','www.aqaspense.eastus2.cloudapp.azure.com']
+#ALLOWED_HOSTS = ['20.75.92.204','www.aqauspense.com','aquaspense.com','aquaspense.eastus2.cloudapp.azure.com','www.aqaspense.eastus2.cloudapp.azure.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,13 +79,17 @@ WSGI_APPLICATION = 'cheuvu1.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
+    #'default': {
+     #   'ENGINE': 'django.db.backends.postgresql_psycopg2',
+      #  'NAME': 'cheruvudb',
+       # 'USER': 'subhiram',
+        #'PASSWORD': 'Subhiram123',
+        #'HOST': 'localhost',
+        #'PORT': '5432',
+    #}
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cheruvudb',
-        'USER': 'subhiram',
-        'PASSWORD': 'Subhiram123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
