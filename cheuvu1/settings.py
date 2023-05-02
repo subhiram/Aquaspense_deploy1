@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-%#$nhxlbk4u6@oj%wm$6vvu&3pc8sa+$o@y-^q*$r61g2#+20(
 DEBUG = False
 
 ALLOWED_HOSTS = ['20.75.92.204','www.aqauspense.com','aquaspense.com','aquaspense.eastus2.cloudapp.azure.com','www.aqaspense.eastus2.cloudapp.azure.com']
-#ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -87,10 +87,6 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
-    #'default': {
-     #   'ENGINE': 'django.db.backends.sqlite3',
-      #  'NAME': BASE_DIR / 'db.sqlite3',
-    #}
 }
 
 
