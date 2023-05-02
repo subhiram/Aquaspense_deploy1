@@ -86,4 +86,23 @@ class daily_feed(models.Model):
 
 
 
+class user_detail(models.Model):
+    user_id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=100,unique=True)
+    date_joined = models.DateField(auto_now_add=True)
+    mobile = models.CharField(max_length=255)
+    is_verified = models.BooleanField(default=False)
+    user_type = models.BooleanField(default=False) # user type- user(false) and for vendor (true)
 
+class temp_user(models.Model):
+    temp_id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    password = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    date_joined = models.DateField(auto_now_add=True) # auto add
+    mobile = models.CharField(max_length=255)
+    is_verified = models.BooleanField(default=False)
+    user_type = models.BooleanField(default=False) # user type- user(false) and for vendor (true)
+    otp = models.IntegerField()

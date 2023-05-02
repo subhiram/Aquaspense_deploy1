@@ -9,8 +9,12 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.db.models import Avg
+import smtplib, ssl
+from email.message import EmailMessage
+import math
+import random
 from django.views.decorators.cache import never_cache
-
+#subhi subhi subhiram Subhiram123
 # product landing page
 def landing_page(request):
     return render(request,'landing_page.html')
@@ -25,6 +29,7 @@ def signup(request):
         email = request.POST['email']
         first_name = request.POST['first']
         last_name = request.POST['second']
+        mobile = request.POST['mobile']
         if password == confirm:
 
             try:
@@ -32,15 +37,96 @@ def signup(request):
                 messages.info(request,"user already exists")
                 return redirect(user_login)
             except:
-                user = User.objects.create_user(username=username,password=password, email=email, first_name=first_name, last_name=last_name)
-                user.save()
-                messages.success(request, 'Sign up successful!')
-                return redirect(user_login)
+                user_type = False
+                digits = [i for i in range(0, 10)]
+                random_str = ""
+                for i in range(6):
+                    index = math.floor(random.random() * 10)
+                    random_str += str(digits[index])
+                otp = random_str
+
+                is_verified = False
+                sender_email = "subhiram.com@gmail.com"  # Enter your address
+                receiver_email = email  # Enter receiver address
+                msg = EmailMessage()
+                ms = "your otp is " + otp
+                msg.set_content(ms)
+                msg['Subject'] = "Hello user, Your single-use code for website"
+                msg['From'] = sender_email
+                msg['To'] = receiver_email
+
+                s = smtplib.SMTP('smtp.gmail.com', 587)
+                s.starttls()
+                s.login("subhiram.com@gmail.com", "ccdmwlifsunsguds")
+                s.send_message(msg)
+                s.quit()
+                a = temp_user.objects.create(username=username, password=password, first_name=first_name,
+                                             last_name=last_name,
+                                             email=email, mobile=mobile, is_verified=is_verified, user_type=user_type,
+                                             otp=otp)
+                a.save()
+                temp_id = a.temp_id
+                context = {
+                    'temp_id': temp_id,
+                    'otp': otp
+                }
+                # messages.success(request, 'your otp is',otp)
+                # return redirect(verify(request,temp_id))
+                return render(request, 'verify.html', context=context)
+                #user = User.objects.create_user(username=username,password=password, email=email, first_name=first_name, last_name=last_name)
+                #user.save()
+                #messages.success(request, 'Sign up successful!')
+                #return redirect(user_login)
         else:
             messages.success(request, 'password and confirm password does not match!!')
             return redirect(signup)
 
     return render(request,'register.html')
+
+def verify(request):
+    if request.method == 'POST':
+        otp = request.POST['otp']
+        temp_id = request.POST['id']
+        print(otp)
+        print(temp_id)
+        a = temp_user.objects.get(temp_id=temp_id)
+        email = a.email
+        if a.otp == int(otp):
+            print("otp matching")
+            user = User.objects.create_user(username=a.username,password=a.password,first_name=a.first_name, last_name=a.last_name, email=a.email)
+            user.save()
+            j = User.objects.get(username=a.username)
+            print("new user successfully created")
+            user_dts = user_detail.objects.create(user_id=j.id,username=a.username,mobile=a.mobile,is_verified=True,user_type=a.user_type)
+            user_dts.save()
+            print("new user details successfully created")
+            sender_email = "subhiram.com@gmail.com"  # Enter your address
+            receiver_email = email  # Enter receiver address
+            msg = EmailMessage()
+            ms = "We are thrilled to have you onboard. your email has been successfully verified."
+            msg.set_content(ms)
+            msg['Subject'] = "Hello user, Aquaspense Welcomes you to the family"
+            msg['From'] = sender_email
+            msg['To'] = receiver_email
+
+            s = smtplib.SMTP('smtp.gmail.com', 587)
+            s.starttls()
+            s.login("subhiram.com@gmail.com", "ccdmwlifsunsguds")
+            s.send_message(msg)
+            s.quit()
+            a.delete()
+            messages.success(request, "successfully verified!")
+
+            return redirect(user_login)
+        else:
+            print("otp not matching")
+            messages.info(request, "otp does not match")
+            context = {
+                "temp_id":temp_id
+            }
+            return render(request, 'verify.html', context=context)
+
+    return render(request, 'verify.html')
 
 # user login page
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -53,18 +139,29 @@ def user_login(request):
         if user is not None:
 
             u = User.objects.get(username=username)
-            crop = main_crop.objects.filter(user_id=u.id).filter(status='ongoing')
-            print(crop)
-            login(request, user)
-            for c in crop:
-                print(c.crop_name)
-            crops1 = main_crop.objects.filter(user_id=u.id).filter(status='completed')
-            context = {
-                'crops': crop,
-                'crops1':crops1
-            }
-            messages.success(request, 'logged in successfully!')
-            return render(request, 'maindash.html', context=context)
+            print(u.id)
+            try:
+                j = user_detail.objects.get(user_id=u.id)
+                if j.is_verified:
+                    crop = main_crop.objects.filter(user_id=u.id).filter(status='ongoing')
+                    print(crop)
+                    login(request, user)
+                    for c in crop:
+                        print(c.crop_name)
+                    crops1 = main_crop.objects.filter(user_id=u.id).filter(status='completed')
+                    context = {
+                        'crops': crop,
+                        'crops1': crops1
+                    }
+                    messages.success(request, 'logged in successfully!')
+                    return render(request, 'maindash.html', context=context)
+                else:
+                    messages.info(request, "email not verified, please contact the admin for more details!")
+                    return render(request, 'login.html')
+            except:
+                messages.info(request,"email not verified, please contact the admin for more details!")
+                return render(request, 'login.html')
+
         else:
             messages.info(request, "Invalid credentials, please try again!!")
 

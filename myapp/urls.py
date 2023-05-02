@@ -26,5 +26,6 @@ urlpatterns = [
     path('main_graph/<pk>/', views.maindash_graph),
     path('complete_crop/<pk>/<days>/',views.complete_btn_update),
     path('profile/<pk>/', views.profile),
-    path('estimate/<pk>/', views.estimate)
+    path('estimate/<pk>/', views.estimate),
+    path('verify/', views.verify, name="verify"),
 ]

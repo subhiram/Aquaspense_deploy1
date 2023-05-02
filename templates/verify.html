@@ -1,0 +1,49 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>verify otp</title>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>New crop page</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static '/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static '/assets/css/style.css' %}">
+    <!-- End layout styles -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+              <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Otp forms</h4>
+                    <p class="card-description">We have sent the otp to your registered email </p>
+                    <form class="form-inline" method="post" action="{% url 'verify' %}">
+                            {% csrf_token %}
+                      <!--<label class="sr-only" for="inlineFormInputGroupUsername2">We have sent the otp to your registered email</label></br>-->
+                      <div class="input-group mb-2 mr-sm-2"><br>
+                        <br><input type="number" class="form-control" id="inlineFormInputGroupUsername2" name="otp" placeholder="Otp">
+                          <input type="hidden" name="id" value="{{ temp_id }}">
+                      </div>
+                        <br><button type="submit" class="btn btn-gradient-primary mb-2">Submit</button></br>
+                    </form>
+                  </div>
+                </div>
+              </div>
+        {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+</body>
+</html>
