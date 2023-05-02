@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%#$nhxlbk4u6@oj%wm$6vvu&3pc8sa+$o@y-^q*$r61g2#+20('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['20.75.92.204','www.aqauspense.com','aquaspense.com','aquaspense.eastus2.cloudapp.azure.com','www.aqaspense.eastus2.cloudapp.azure.com']
 #ALLOWED_HOSTS = ['*']
