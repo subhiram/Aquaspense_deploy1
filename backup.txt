@@ -239,3 +239,11 @@ def add_data(request,pk):
     print(len(obj))
     daily_feed.objects.bulk_create(obj)
     return redirect(user_login)
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cheruvudb',
+        'USER': 'subhiram',
+        'PASSWORD': 'Subhiram123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
