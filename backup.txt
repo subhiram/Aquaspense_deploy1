@@ -247,3 +247,15 @@ def add_data(request,pk):
         'HOST': 'localhost',
         'PORT': '5432',
     }
+var myVar;
+function myFunction() {
+  myVar = setTimeout(showPage, 1000);
+}
+function showPage() {
+
+  document.getElementById("loader").style.display = "none";
+document.getElementById("myDiv").style.display = "block";
+
+
+
+}

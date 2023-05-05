@@ -17,7 +17,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{% static '/assets/css/style.css' %}">
     <!-- End layout styles -->
-      <style>
+      <!--<style>
           .loader {
                position: absolute;
   left: 60%;
@@ -36,7 +36,7 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-      </style>
+      </style>-->
 <script>
     (function () {
 	window.onpageshow = function(event) {
@@ -47,26 +47,14 @@
 })();
 
 
-var myVar;
-function myFunction() {
-  myVar = setTimeout(showPage, 1000);
-}
-function showPage() {
-
-  document.getElementById("loader").style.display = "none";
-document.getElementById("myDiv").style.display = "block";
-
-
-
-}
 
 </script>
   </head>
-  <body onload="myFunction()">
+  <body>
 
   {% if request.user.is_authenticated %}
-      <div class="loader" id="loader"></div>
-    <div class="container-scroller" id="myDiv">
+      <!--<div class="loader" id="loader"></div> id="myDiv"-->
+    <div class="container-scroller">
       <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-md-center">
