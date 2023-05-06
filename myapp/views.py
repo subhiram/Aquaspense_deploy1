@@ -100,7 +100,7 @@ def verify(request):
             user_dts = user_detail.objects.create(user_id=j.id,username=a.username,mobile=a.mobile,is_verified=True,user_type=a.user_type)
             user_dts.save()
             print("new user details successfully created")
-            sender_email = "subhiram.com@gmail.com"  # Enter your address
+            sender_email = "noreply.aquaspense@gmail.com"  # Enter your address
             receiver_email = email  # Enter receiver address
             msg = EmailMessage()
             ms = "We are thrilled to have you onboard. your email has been successfully verified."
@@ -111,7 +111,7 @@ def verify(request):
 
             s = smtplib.SMTP('smtp.gmail.com', 587)
             s.starttls()
-            s.login("subhiram.com@gmail.com", "ccdmwlifsunsguds")
+            s.login("noreply.aquaspense@gmail.com", "tgemfernlbiutsk")
             s.send_message(msg)
             s.quit()
             a.delete()
