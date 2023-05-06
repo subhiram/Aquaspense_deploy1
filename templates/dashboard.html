@@ -242,17 +242,20 @@
                       {% if graph1_total is None %}
                         <h4>No data available</h4>
                       {% else %}
-                          <br>
                           <canvas id="graph1" class="mt-4"></canvas><br>
-                          <div style="width: 50%; height: 100px; float: left;">
-                               <p>Regular expenses : {{ graph1_percent.0 }} %</p>
-                               <p>Electrical expenses : {{ graph1_percent.2 }} %</p>
-                               <p>Other expenses : {{ graph1_percent.4 }} %</p>
+
+                           <div style="width: 50%; height: 100px; float: left;">
+                               <p>Regular  : {{ graph1_percent.0 }} %</p>
+                               <p>Electrical : {{ graph1_percent.2 }} %</p>
+                               <p>Other : {{ graph1_percent.4 }} %</p>
                            </div>
                           <div style="margin-left: 50%; height: 100px;">
-                              <p>Worker expenses : {{ graph1_percent.1 }} %</p>
-                              <p>Feed expenses : {{ graph1_percent.3 }} %</p>
+                              <p>Worker : {{ graph1_percent.1 }} %</p>
+                              <p>Feed : {{ graph1_percent.3 }} %</p>
+                          <br>
                           </div>
+                          <br>
+                          <br>
                       {% endif %}
                   </div>
                 </div>
