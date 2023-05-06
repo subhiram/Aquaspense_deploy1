@@ -439,7 +439,7 @@ def dashboard(request, pk):
                 for i in graph1_data:
                     a = int(i)/total_expense
                     a =a*100
-                    graph1_percent.append(a)
+                    graph1_percent.append(round(a))
                 print(graph1_percent)
                 print(sum(graph1_percent))
 
