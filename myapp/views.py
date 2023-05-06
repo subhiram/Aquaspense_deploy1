@@ -57,7 +57,7 @@ def signup(request):
 
                 s = smtplib.SMTP('smtp.gmail.com', 587)
                 s.starttls()
-                s.login("noreply.aquaspense@gmail.com", "tgemfernlbiutsk")
+                s.login("noreply.aquaspense@gmail.com", "itzynktfanqapfjx")
                 s.send_message(msg)
                 s.quit()
                 a = temp_user.objects.create(username=username, password=password, first_name=first_name,
