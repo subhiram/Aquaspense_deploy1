@@ -46,7 +46,7 @@ def signup(request):
                 otp = random_str
 
                 is_verified = False
-                sender_email = "subhiram.com@gmail.com"  # Enter your address
+                sender_email = "noreply.aquaspense@gmail.com"  # Enter your address
                 receiver_email = email  # Enter receiver address
                 msg = EmailMessage()
                 ms = "your otp is " + otp
@@ -57,7 +57,7 @@ def signup(request):
 
                 s = smtplib.SMTP('smtp.gmail.com', 587)
                 s.starttls()
-                s.login("subhiram.com@gmail.com", "ccdmwlifsunsguds")
+                s.login("noreply.aquaspense@gmail.com", "tgemfernlbiutsk")
                 s.send_message(msg)
                 s.quit()
                 a = temp_user.objects.create(username=username, password=password, first_name=first_name,
