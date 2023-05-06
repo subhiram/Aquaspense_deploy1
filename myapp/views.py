@@ -435,6 +435,14 @@ def dashboard(request, pk):
                 t = abs(feed_bags - total_bags)
                 print('total bags ia ', total_bags)
                 print('feed bags', feed_bags)
+                graph1_percent=[]
+                for i in graph1_data:
+                    a = int(i)/total_expense
+                    a =a*100
+                    graph1_percent.append(a)
+                print(graph1_percent)
+                print(sum(graph1_percent))
+
         except:
             pass
 
@@ -448,7 +456,11 @@ def dashboard(request, pk):
         graph2_labels = ['Total spent', 'Total received']
         total_spent = sum(graph1_data)
         graph2_data = [total_spent,export_sum]
-
+        graph2_percent = []
+        for i in graph2_data:
+            a = int(i)/sum(graph2_data)
+            a = a*100
+            graph2_percent.append(round(a))
         d = main_crop.objects.get(crop_id=pk)
         user_id = d.user_id
         # getting the insights:
@@ -466,6 +478,8 @@ def dashboard(request, pk):
             'total_feed': total_feed,
             'graph1_labels':graph1_labels,
             'graph1_total': graph1_data,
+            'graph1_percent': graph1_percent,
+            'graph2_percent': graph2_percent,
             'graph2_labels': graph2_labels,
             'graph2_total': graph2_data,
             'crop_id': pk,

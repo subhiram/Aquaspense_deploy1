@@ -232,7 +232,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-7 grid-margin stretch-card">
+              <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="clearfix">
@@ -243,15 +243,34 @@
                         <h4>No data available</h4>
                       {% else %}
                           <canvas id="graph1" class="mt-4"></canvas>
+                          <div style="width: 50%; height: 100px; float: left;">
+                               <p>Regular expenses : {{ graph1_percent.0 }} %</p>
+                               <p>Electrical expenses : {{ graph1_percent.2 }} %</p>
+                               <p>Other expenses : {{ graph1_percent.4 }} %</p>
+                           </div>
+                          <div style="margin-left: 50%; height: 100px;">
+                              <p>Worker expenses : {{ graph1_percent.1 }} %</p>
+                              <p>Feed expenses : {{ graph1_percent.3 }} %</p>
+                          </div>
                       {% endif %}
                   </div>
                 </div>
               </div>
-              <div class="col-md-5 grid-margin stretch-card">
+              <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Total expense and export statistics</h4>
-                    <canvas id="graph2"></canvas>
+                    <h4 class="card-title">Total expense and export statistics</h4><br>
+
+                      <br>
+                    <canvas id="graph2"></canvas><br><br>
+                      <div style="width: 50%; height: 100px; float: left;">
+                               <p>Regular expenses : {{ graph2_percent.0 }} %</p>
+
+                      </div>
+                      <div style="margin-left: 50%; height: 100px;">
+                              <p>Worker expenses : {{ graph2_percent.1 }} %</p>
+                      </div>
+
                     <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                   </div>
                 </div>
@@ -292,13 +311,30 @@
             var graph1_total = {{ graph1_total|safe }};
             var ctx = document.getElementById('graph1');
             new Chart(ctx, {
-              type: 'bar',
+              type: 'doughnut',
               data: {
                 labels: graph1_labels,
                 datasets: [{
                   label: '# ruppes',
                   data: graph1_total,
-                    backgroundColor: '#98BDFF'
+                    <!--backgroundColor: '#98BDFF'-->
+                    backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
 
                 }]
               },
