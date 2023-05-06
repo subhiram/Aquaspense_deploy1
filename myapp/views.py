@@ -17,7 +17,7 @@ from django.views.decorators.cache import never_cache
 #subhi subhi subhiram Subhiram123
 # product landing page
 def landing_page(request):
-    return render(request,'landing_page.html')
+    return render(request,'landing1.html')
 
 #signup page
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

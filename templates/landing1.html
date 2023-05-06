@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Landing Page using HTML, CSS & Javascript</title>
+
+    <!-- ==== STYLE.CSS ==== -->
+    <link rel="stylesheet" href="{% static 'landing/css/style.css' %}">
+
+    <!-- ====  REMIXICON CDN ==== -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <!-- ==== ANIMATE ON SCROLL CSS CDN  ==== -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- ==== HEADER ==== -->
+    <header class="container header">
+      <!-- ==== NAVBAR ==== -->
+      <nav class="nav">
+        <div class="logo">
+          <h2>Aquaspense</h2>
+        </div>
+
+        <div class="nav_menu" id="nav_menu">
+          <button class="close_btn" id="close_btn">
+            <i class="ri-close-fill"></i>
+          </button>
+
+          <ul class="nav_menu_list">
+            <li class="nav_menu_item">
+              <a href="#" class="nav_menu_link">account</a>
+            </li>
+            <li class="nav_menu_item">
+              <a href="#" class="nav_menu_link">about</a>
+            </li>
+            <li class="nav_menu_item">
+              <a href="#" class="nav_menu_link">service</a>
+            </li>
+            <li class="nav_menu_item">
+              <a href="#" class="nav_menu_link">contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <button class="toggle_btn" id="toggle_btn">
+          <i class="ri-menu-line"></i>
+        </button>
+      </nav>
+    </header>
+
+    <section class="wrapper">
+      <div class="container">
+        <div class="grid-cols-2">
+          <div class="grid-item-1">
+            <h1 class="main-heading">
+              Welcome to <span>Aquaspense.</span>
+              <br />
+              Manage everything.
+            </h1>
+            <p class="info-text">
+            Your solution to efficiently managing your business.
+            </p>
+
+            <div class="btn_wrapper">
+              <a href="/signup/" style="text-decoration: none"><button class="btn view_more_btn">Get started now<!--<i class="ri-arrow-right-line"></i>-->
+              </button></a>
+
+                <a href="/login/" style="text-decoration: none"><button class="btn documentation_btn">Login</button></a>
+            </div>
+          </div>
+          <div class="grid-item-2">
+            <div class="team_img_wrapper">
+              <img src="{% static 'landing/img/team.svg' %}" alt="team-img" />
+              <!--<img src="{% static 'assets/images/dash.png'%}" alt="team-img" />-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrapper">
+      <div class="container" data-aos="fade-up" data-aos-duration="1000">
+        <div class="grid-cols-3">
+          <div class="grid-col-item">
+            <div class="featured_info">
+              <span>Built-in Analytics </span>
+              <p>
+                Track your crop's progress and see how you're doing over time.
+              </p>
+            </div>
+          </div>
+          <div class="grid-col-item">
+            <div class="featured_info">
+              <span>Secure</span>
+              <p>
+                Your data is safe with us. Our product uses industry-standard security measures to protect your information.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-col-item">
+            <div class="featured_info">
+              <span>Easy to Use</span>
+              <p>
+                Our Product is designed with simplicity in mind. You don't need any technical knowledge to start using it today.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="wrapper">
+
+      <div class="container" data-aos="fade-up" data-aos-duration="1000">
+          <div class="grid-cols-3">
+            <div class="grid-col-item">
+              <div class="featured_info">
+                  <span>About me</span>
+                  <span>S G B Subhiram Gurlinka</span>
+                  <p>AI and Web developer</p><br>
+                  <h4>My skills</h4><br>
+                    <ul>
+                        <li>AI and Machine learning</li>
+                        <li>Web development</li>
+                        <li>Python</li>
+                        <li>Django and Flask</li>
+                    </ul>
+                  <p>you can contact me at <strong>gurlinkasubhiram@gmail.com</strong></p>
+              </div>
+          </div>
+          </div>
+      </div>
+    </section>
+
+    <footer>
+    </footer>
+
+    <!-- ==== ANIMATE ON SCROLL JS CDN -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- ==== GSAP CDN ==== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+    <!-- ==== SCRIPT.JS ==== -->
+    <script src="{% static 'landing/script.js' %}" defer></script>
+  </body>
+</html>
