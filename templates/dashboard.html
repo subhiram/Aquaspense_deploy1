@@ -69,9 +69,8 @@
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-md-center">
-          <a class="navbar-brand brand-logo-mini" href="/maindash/{{ user.id }}"><img src="../../assets/images/logo.svg" alt="logo" /></a>
-          <!--<a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>-->
-            <a href="/maindash/{{ user.id }}" style="text-decoration: none" class="navbar-brand brand-logo"><h3>  Aquaspense</h3></a>
+            <a class="navbar-brand brand-logo" href="/maindash/{{ user.id }}" style="text-decoration: none"><h3>Aquaspense</h3></a>
+          <a class="navbar-brand brand-logo-mini" href="/maindash/{{ user.id }}"><img src="{% static 'landing/img/aqua1.svg' %}" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -244,7 +243,7 @@
                       {% else %}
                           <canvas id="graph1" class="mt-4"></canvas><br>
 
-                           <div style="width: 50%; height: 100px; float: left;">
+                           <!--<div style="width: 50%; height: 100px; float: left;">
                                <p>Regular  : {{ graph1_percent.0 }} %</p>
                                <p>Electrical : {{ graph1_percent.2 }} %</p>
                                <p>Other : {{ graph1_percent.4 }} %</p>
@@ -255,7 +254,7 @@
                           <br>
                           </div>
                           <br>
-                          <br>
+                          <br>-->
                       {% endif %}
                   </div>
                 </div>
@@ -267,13 +266,13 @@
 
                       <br>
                     <canvas id="graph2"></canvas><br><br>
-                      <div style="width: 50%; height: 100px; float: left;">
+                      <!--<div style="width: 50%; height: 100px; float: left;">
                                <p>Regular expenses : {{ graph2_percent.0 }} %</p>
 
                       </div>
                       <div style="margin-left: 50%; height: 100px;">
                               <p>Worker expenses : {{ graph2_percent.1 }} %</p>
-                      </div>
+                      </div>-->
 
                     <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                   </div>
@@ -313,6 +312,7 @@
           <script type="text/javascript">
             var graph1_labels = {{ graph1_labels|safe }};
             var graph1_total = {{ graph1_total|safe }};
+            var graph1_percent = {{ graph1_percent|safe }};
             var ctx = document.getElementById('graph1');
             new Chart(ctx, {
               type: 'doughnut',
@@ -358,6 +358,15 @@
                   }
 
                   },
+                  plugins: {
+                      tooltip:{
+                          callbacks: {
+                              afterBody: function (context) {
+                                  return `total portion:${graph1_percent[context[0].dataIndex]}%`;
+                              },
+                          }
+                      },
+                  },
 
                 scales: {
                   y: {
@@ -373,6 +382,7 @@
 
             var graph2_labels = {{ graph2_labels|safe }};
             var graph2_total = {{ graph2_total|safe }};
+            var graph2_percent = {{ graph2_percent|safe }};
             var ctx = document.getElementById('graph2');
             new Chart(ctx, {
               type: 'pie',
@@ -388,6 +398,15 @@
                 }]
               },
               options: {
+                  plugins: {
+                      tooltip:{
+                          callbacks: {
+                              afterBody: function (context) {
+                                  return `total portion:${graph2_percent[context[0].dataIndex]}%`;
+                              },
+                          }
+                      },
+                  },
                 scales: {
                   y: {
                     beginAtZero: true
