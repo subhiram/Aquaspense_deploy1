@@ -403,6 +403,7 @@ def dashboard(request, pk):
         #graph1 content
         graph1_labels = ['Regular', 'Worker', 'Electrical']
         graph1_data = [expense_sum, work_sum, ele_sum]
+        graph1_percent = []
 
         y = feed.objects.filter(crop_id=pk).filter(type='feed')
         try:
@@ -457,10 +458,14 @@ def dashboard(request, pk):
         total_spent = sum(graph1_data)
         graph2_data = [total_spent,export_sum]
         graph2_percent = []
-        for i in graph2_data:
-            a = int(i)/sum(graph2_data)
-            a = a*100
-            graph2_percent.append(round(a))
+        try:
+
+            for i in graph2_data:
+                a = int(i)/sum(graph2_data)
+                a = a*100
+                graph2_percent.append(round(a))
+        except:
+            pass
         d = main_crop.objects.get(crop_id=pk)
         user_id = d.user_id
         # getting the insights:
