@@ -28,4 +28,5 @@ urlpatterns = [
     path('profile/<pk>/', views.profile),
     path('estimate/<pk>/', views.estimate),
     path('verify/', views.verify, name="verify"),
+    path('save_data/',views.export_to_excel, name='savedata'),
 ]

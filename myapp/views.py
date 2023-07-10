@@ -1092,8 +1092,29 @@ def estimate(request,pk):
     }
     return render(request,'estimate.html',context=context)
 
+#converting the data from models to an excel file
+def export_to_excel(request):
+    # Get all models in your Django app
+    from django.apps import apps
+    models = apps.get_models()
 
+    # Create a Pandas Excel writer
+    writer = pd.ExcelWriter('models_data.xlsx', engine='xlsxwriter')
 
+    # Loop through each model
+    for model in models:
+        # Get all objects from the model
+        objects = model.objects.all()
+
+        # Convert model objects to a Pandas DataFrame
+        df = pd.DataFrame(list(objects.values()))
+
+        # Write the DataFrame to Excel sheet
+        df.to_excel(writer, sheet_name=model.__name__, index=False)
+
+    # Save the Excel file
+    writer.save()
+    return render(request,'landing1.html')
 
 
 
