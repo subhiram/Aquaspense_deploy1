@@ -13,6 +13,9 @@ import smtplib, ssl
 from email.message import EmailMessage
 import math
 import random
+import zipfile
+import io
+import csv
 from django.views.decorators.cache import never_cache
 #subhi subhi subhiram Subhiram123
 # product landing page
@@ -1098,23 +1101,34 @@ def export_to_excel(request):
     from django.apps import apps
     models = apps.get_models()
 
-    # Create a Pandas Excel writer
-    writer = pd.ExcelWriter('models_data.xlsx', engine='xlsxwriter')
+    # Create a response object
+    response = HttpResponse(content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename="models_data.zip"'
+
+    # Create a zip file object
+    zip_file = zipfile.ZipFile(response, 'w', zipfile.ZIP_DEFLATED)
 
     # Loop through each model
     for model in models:
-        # Get all objects from the model
-        objects = model.objects.all()
+        # Create a CSV file for each model
+        csv_file_name = f"{model.__name__}.csv"
+        csv_file = io.StringIO()
 
-        # Convert model objects to a Pandas DataFrame
-        df = pd.DataFrame(list(objects.values()))
+        # Create a CSV writer
+        writer = csv.writer(csv_file)
+        writer.writerow([field.name for field in model._meta.fields])
 
-        # Write the DataFrame to Excel sheet
-        df.to_excel(writer, sheet_name=model.__name__, index=False)
+        # Write each object's data to the CSV file
+        for obj in model.objects.all():
+            writer.writerow([getattr(obj, field.name) for field in model._meta.fields])
 
-    # Save the Excel file
-    writer.save()
-    return render(request,'landing1.html')
+        # Add the CSV file to the zip file
+        zip_file.writestr(csv_file_name, csv_file.getvalue())
+
+    # Close the zip file
+    zip_file.close()
+
+    return response
 
 
 
