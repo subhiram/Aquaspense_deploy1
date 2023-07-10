@@ -1103,7 +1103,7 @@ def export_to_excel(request):
 
     # Create a response object
     response = HttpResponse(content_type='application/zip')
-    response['Content-Disposition'] = 'attachment; filename="models_data.zip"'
+    response['Content-Disposition'] = 'attachment; filename="Aquaspense_data_backup.zip"'
 
     # Create a zip file object
     zip_file = zipfile.ZipFile(response, 'w', zipfile.ZIP_DEFLATED)
